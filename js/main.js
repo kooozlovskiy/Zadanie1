@@ -2,7 +2,8 @@ let app = new Vue({
     el: '#app',
     data: {
         product: "Socks",
-        image: "./assets/vmSocks-green-onWhite.jpg",
+        image: "./assets/vmSocks-green-o" +
+            "nWhite.jpg",
         altText: "A pair of socks",
         link: "More products like this.",
         inStock: false,
