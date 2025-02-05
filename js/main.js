@@ -4,20 +4,11 @@ let app = new Vue({
         product: "Socks",
         image: "./assets/vmSocks-green-onWhite.jpg",
         altText: "A pair of socks",
-        link: "https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=socks.",
-        inStock: true,
+        link: "More products like this.",
+        inStock: false,
         inventory: 100,
         details: ['80% cotton', '20% polyester', 'Gender-neutral'],
-        variants: [
-            {
-                variantId: 2234,
-                variantColor: 'green'
-            },
-            {
-                variantId: 2235,
-                variantColor: 'blue'
-            }
-        ],
+
         sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
         cart: 0,
         variants: [
@@ -25,6 +16,7 @@ let app = new Vue({
                 variantId: 2234,
                 variantColor: 'green',
                 variantImage: "./assets/vmSocks-green-onWhite.jpg",
+
             },
             {
                 variantId: 2235,
@@ -42,7 +34,7 @@ let app = new Vue({
             this.image = variantImage
         },
         delToCart() {
-            if (this.cart > 0) {
+            if (this.cart >= 0) {
                 this.cart -= 1
             }
         },
