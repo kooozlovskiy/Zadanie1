@@ -21,10 +21,10 @@
             <h1>{{ product }}</h1>
             <p>A pair of warm, fuzzy socks.</p>
             <a href="https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=socks">{{link}} </a>
-                <p v-if="inventory > 10">In Stock</p>
+                <p v-if="inStock">In Stock</p>
+                <p :class="{ 'line': !inStock }">Out of Stock</p>
                 <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
                 <p v-else>Out of Stock</p>
-                <p :class="{ 'strike-through': !inStock }">Out of Stock</p>
                 <span>OnSale</span>
                 <ul>
                     <li v-for="detail in details">{{ detail }}</li>
