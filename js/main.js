@@ -5,16 +5,12 @@ Vue.component('product-detail', {
             required: true
         }
     },
-
     template: `
     <ul>
         <li v-for="detail in details">{{ detail }}</li>
     </ul>
     `,
-
 })
-
-
 Vue.component('product', {
     props: {
         premium: {
@@ -22,7 +18,6 @@ Vue.component('product', {
             required: true
         }
     },
-
     template: `
     
     <div class="product">
@@ -43,9 +38,6 @@ Vue.component('product', {
                      :key="variant.variantId"
                      :style="{ backgroundColor:variant.variantColor }"
                      @mouseover="updateProduct(index)">
-
-
-
                 </div>
                 <li v-for="size in sizes">{{size}}</li>
                 <div class="cart">
@@ -56,7 +48,7 @@ Vue.component('product', {
                 <p>Shipping: {{ shipping }}</p>
             </div>
         </div>`
-        ,
+    ,
     data() {
         return {
             product: "Socks",
@@ -67,7 +59,6 @@ Vue.component('product', {
             altText: "A pair of socks",
             link: "More products like this",
             onSale: true,
-
             variants: [
                 {
                     variantId: 2234,
@@ -83,22 +74,15 @@ Vue.component('product', {
                 }
             ],
             sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
-
         }
     },
-
     methods: {
         addToCart() {
             this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId);
-
         },
-
-
         updateProduct(index) {
             this.selectedVariant = index;
-
         },
-
         DelCart() {
             this.$emit('del-to-cart', this.variants[this.selectedVariant].variantId);
         },
@@ -123,30 +107,21 @@ Vue.component('product', {
                 return 2.99
             }
         },
-
-
     },
 })
-
-
 let app = new Vue({
-
     el: '#app',
     data: {
         premium: true,
         cart: []
-
     },
     methods: {
         updateCart(id) {
             this.cart.push(id);
         },
-        DelCart(id) {
+        delCart(id) {
             console.log(id);
             this.cart.pop(id);
         }
-
     }
-
-
 })
