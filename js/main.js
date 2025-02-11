@@ -47,7 +47,24 @@ Vue.component('product', {
                 <span>{{ sale }}</span>
                 <p>Shipping: {{ shipping }}</p>
             </div>
+            <div>
+<h2>Reviews</h2>
+<p v-if="!reviews.length">There are no reviews yet.</p>
+<ul>
+  <li v-for="review in reviews">
+  <p>{{ review.name }}</p>
+  <p>Rating: {{ review.rating }}</p>
+  <p>{{ review.review }}</p>
+  </li>
+</ul>
+
+</div>
+<product-review @review-submitted="addReview"></product-review>
+
+
         </div>`
+
+
     ,
     data() {
         return {
@@ -73,6 +90,7 @@ Vue.component('product', {
                     variantQuantity: 0
                 }
             ],
+            reviews: [],
             sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
         }
     },
@@ -86,6 +104,10 @@ Vue.component('product', {
         DelCart() {
             this.$emit('del-to-cart', this.variants[this.selectedVariant].variantId);
         },
+        addReview(productReview) {
+            this.reviews.push(productReview)
+        }
+
     },
     computed: {
         title() {
@@ -109,11 +131,102 @@ Vue.component('product', {
         },
     },
 })
+
+
+
+
+Vue.component('product-review', {
+    template: `
+<form class="review-form" @submit.prevent="onSubmit">
+ <p v-if="errors.length">
+<b>Please correct the following error(s):</b>
+    <ul>
+        <li v-for="error in errors" :key="error">{{ error }}</li>
+    </ul>
+ </p>
+    <p>
+        <label for="name">Name:</label>
+        <input id="name" v-model="name" placeholder="name">
+    </p>
+    <p>
+        <label for="review">Review:</label>
+       <textarea id="review" v-model="review"></textarea>
+   </p>
+ <p>
+   <label for="rating">Rating:</label>
+   <select id="rating" v-model.number="rating">
+     <option>5</option>
+     <option>4</option>
+     <option>3</option>
+     <option>2</option>
+     <option>1</option>
+   </select>
+   <p>
+<label>Would you recommend this product?</label>
+    <label>
+        <input type="radio" value="yes" v-model="recommendation"> Yes
+    </label>
+    <label>
+        <input type="radio" value="no" v-model="recommendation"> No
+    </label>
+    </p>
+ </p>
+ <p>
+   <input type="submit" value="Submit"> 
+ </p>
+</form>
+<p v-if="errors.length">
+ <b>Please correct the following error(s):</b>
+ <ul>
+   <li v-for="error in errors">{{ error }}</li>
+ </ul>
+</p>
+
+ `,
+    data() {
+        return {
+            name: null, // Имя пользователя
+            review: null, // Текст отзыва
+            rating: null, // Рейтинг
+            recommendation: null, // Рекомендация
+            errors: [] // Ошибки валидации
+        }
+    },
+    methods: {
+        onSubmit() {
+            if(this.name && this.review && this.rating) {
+                let productReview = {
+                    name: this.name,
+                    review: this.review,
+                    rating: this.rating
+                }
+                this.$emit('review-submitted', productReview)
+                this.name = null
+                this.review = null
+                this.rating = null
+            } else {
+                if(!this.name) this.errors.push("Name required.")
+                if(!this.review) this.errors.push("Review required.")
+                if(!this.rating) this.errors.push("Rating required.")
+            }
+        },
+        resetForm() { // Сброс формы
+            this.name = '';
+            this.review = '';
+            this.rating = null;
+            this.recommendation = '';
+        }
+    }
+});
+
+
+
 let app = new Vue({
     el: '#app',
     data: {
         premium: true,
-        cart: []
+        cart: [],
+        reviews: []
     },
     methods: {
         updateCart(id) {
@@ -125,3 +238,5 @@ let app = new Vue({
         }
     }
 })
+
+
