@@ -147,19 +147,21 @@ Vue.component('product', {
             required: true
         }
     },
-    template: `
-    <div class="product">
-      <div class="product-image">
-        <img v-bind:alt="altText" v-bind:src="image">
-      </div>
-      <div class="product-info">
+    template:
+        `
+        <div class="product">
+        <div class="product-image">
+        <img :src="image" :alt="altText"/>
+        </div>
+        <div class="product-info">
         <h1>{{ title }}</h1>
         <p>{{ description }}</p>
         <a class="link" :href="link">More products like this</a>
-        <p v-if="inventory > 10">In Stock</p>
-        <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
-        <p v-if="inStock">In Stock</p>
-        <p v-else :class="{ strikethrough: !inStock }">Out of Stock</p>
+       <p v-if="inStock">In stock</p>
+       <p v-else>Out of Stock</p>
+<p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
+<p v-else>Out of stock</p>
+            
         <span>{{ onsale }}</span>
         <p>{{ sale }}</p>        
         <div 
@@ -172,8 +174,8 @@ Vue.component('product', {
         <ul>
           <li v-for="sizes in sizes">{{ sizes }}</li>
          </ul>
-                    <button @click="addToCart" :disabled="!inStock" :class="{ disabledButton: !inStock }">Add to cart</button>
-                    <button @click="removeFromCart">Remove from cart</button>
+                     <button @click="addToCart" :disabled="!inStock" :class="{ disabledButton: !inStock }">Add to cart</button>
+                    <button @click="delToCart">Delete from cart</button>
                 </div>
                 <div>
                     <product-tabs :reviews="reviews" :shipping-cost="shipping" :details="details"></product-tabs>
@@ -223,13 +225,13 @@ Vue.component('product', {
         addReview(productReview) { /* Добавление отзыва */
             this.reviews.push(productReview)
         },
-        deletToCart() { /* Удаление из корзины */
-            if (this.cart > 0) {
-                this.cart -= 1;
-            }
+        deletToCart(index) { /* Удаление из корзины */
+            this.selectedVariant = index;
+            console.log(index);
+
         },
-        removeFromCart() {
-            this.$emit('remove-from-cart');
+        delToCart() {
+            this.$emit('del-to-cart');
         },
         updateProduct(index) { /* Обновление выбранного варианта продукта */
             this.selectedVariant = index;
@@ -297,9 +299,9 @@ let app = new Vue({
             // Добавляем товар в корзину
             this.cart.push(id);
         },
-        updateRemoveFromCart() {
+        deletToCart() {
             // Удаляем последний добавленный товар из корзины if (this.cart.length > 0) {
             this.cart.pop();
         }
-    }
 
+    },})
