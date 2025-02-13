@@ -88,6 +88,6 @@ textarea {
     text-decoration: underline;
 }
 
-.line {
+.strikethrough {
     text-decoration: line-through;
 }

@@ -157,10 +157,10 @@ Vue.component('product', {
         <h1>{{ title }}</h1>
         <p>{{ description }}</p>
         <a class="link" :href="link">More products like this</a>
-       <p v-if="inStock">In stock</p>
-       <p v-else>Out of Stock</p>
+        <p v-if="inStock">In stock</p>
+        <p v-else style="text-decoration: line-through">Out of Stock</p>
 <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
-<p v-else>Out of stock</p>
+
             
         <span>{{ onsale }}</span>
         <p>{{ sale }}</p>        
@@ -191,7 +191,6 @@ Vue.component('product', {
             selectedVariant: 0, // Выбранный вариант продукта
             altText: "A pair of socks", // Альтернативный текст для изображения
             link: "https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=socks.", // Ссылка на другие продукты
-            inStock: true,
             inventory: 100,
             onsale: "On Sale",
             onSale: true,// Статус распродажи
@@ -235,7 +234,7 @@ Vue.component('product', {
         },
         updateProduct(index) { /* Обновление выбранного варианта продукта */
             this.selectedVariant = index;
-            console.log(index);
+            console.log(this.variants);
         },
     },
     mounted() {
@@ -254,7 +253,8 @@ Vue.component('product', {
             return this.variants[this.selectedVariant].variantImage;
         },
         inStock() { /* Проверяет наличие на складе */
-            return this.variants[this.selectedVariant].variantQuantity > 0;
+            console.log(this.variants[this.selectedVariant].variantQuantity )
+            return this.variants[this.selectedVariant].variantQuantity ;
         },
         sale() { // Возвращаем статус распродажи
             return this.onSale ? `${this.brand} ${this.product} is on sale!` : `${this.brand} ${this.product} is not on sale.`;
